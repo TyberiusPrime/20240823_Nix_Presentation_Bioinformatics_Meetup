@@ -16,14 +16,310 @@
         <div class="slides">
 
             <section>
-				<h2 ><img src="images/nix-snowflake-colours.svg" style="vertical-align: middle;"/><span style="vertical-align:middle;"> x Nix</span></h2>
+				<h2 ><img src="images/nix-snowflake-colours.svg" style="vertical-align: middle;"/><span style="vertical-align:middle;"> Nix</span></h2>
 				<p>or how to stop worrying and learn to love managed dependency hell</p>
                 <aside class="notes"></aside>
             </section>
+			<section>
+				<h3>Motivation</h3>
+				<blockquote>
+"I don’t care what OS you use, if you install Nix on it, I can guarantee that
+everything you ever need in this project Just Works, without you having to lift
+a finger." - Jacek Generowicz
+				</blockquote>
+			</section>
 
-            <section data-markdown="md/index.md" data-separator="^---" data-separator-vertical="^--"
-                data-separator-notes="^Note:"></section>
+			<section>
+				<h3>What nix gives you</h3>
+				<ul>
+					<li>Reproducible software environments for all languages.</li>
+					<li class='fragment fade-in'>Instant access to 107k packages.</li>
+					<li class='fragment fade-in'>Declarative
+						<ul>
+						<li>machines</li>
+						<li>containers</li><li>VMs</li><li>ISO- & SD-images. </li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<h3>Repository sizes</h3>
+						<img src="images/repo_size/repo_sizes.png" />
+			</section>
+			<section>
+				<img src="images/nix-shell.gif" />
+			</section>
+			
+			<section>
+				<h3>The grand idea</h3>
+				<ul>
+					<li>Software dependencies are a D.A.G.</li>
+					<li>You can name the nodes by their inputs</li>
+					<li>This allows you to have multiple versions of everything</li>
+				</ul>
+				<p>The Purely Functional Software Deployment Model - Eelco Dolstra, 2006, PhD Thesis</p>
+				<aside class="notes">
+					hello
+				</aside>
+            </section>
+            <section data-transition="zoom-in">
+				<img src="images/Graph-01.svg" />
+				<aside class="notes">
+					Build a package
+				</aside>
+            </section>
+            <section data-transition="none">
+				<img src="images/Graph-02.svg" />
+				<aside class="notes">
+					build a version
+				</aside>
+            </section>
+
+			<section data-transition="none">
+				<img src="images/Graph-03.svg" />
+				<aside class="notes">
+					build a version
+				</aside>
+            </section>
+
+			<section data-transition="none">
+				<img src="images/Graph-04.svg" />
+				<aside class="notes">
+					build a version
+				</aside>
+            </section>
+
+			<section data-transition="none">
+				<img src="images/Graph-05.svg" />
+				<aside class="notes">
+					build a version
+				</aside>
+            </section>
+
+			<section data-transition="none">
+				<img src="images/Graph-06.svg" />
+				<aside class="notes">
+					Input addressed
+				</aside>
+            </section>
+
+			<section data-transition="none">
+				<img src="images/Graph-07.svg" />
+				<aside class="notes">
+					Native build inputs!
+				</aside>
+            </section>
+            <section>
+				<h3>Nixlang <img src="images/nix-snowflake-colours.svg" width="100" height="100" style="vertical-align:middle" /></h3>
+				  <pre><code data-trim data-noescape class="language-nix">
+let
+  pkgs = import &lt;nixpkgs&gt; {};
+in
+  pkgs.stdenv.mkDerivation rec {
+    pname = "hello";
+    version = "2.12.1";
+    src = pkgs.fetchurl {
+      url = "mirror://gnu/hello/hello-${version}.tar.gz";
+      sha256 = "sha256-jZkUKv2SV28wsM18tCqNxoCZmLxdYH2Idh9RLibH2yA=";
+    };
+  }
+								  </code></pre>
+            </section>
+<section>
+	<img src="images/nix-build.gif" /> <br />
+	/nix/store/jdgbv5g79avnrx5bdi59jq9ibbxycq8x-hello-2.12.1
+</section>
+
+<section>
+	<h3>Derivation</h3>
+				  <pre><code data-trim data-noescape class="language-json">
+{
+  "/nix/store/jgikc5sz2ivyi82mn679183a1fjms4ha-hello-2.12.1.drv": {
+    "args": [
+      "-e",
+      "/nix/store/v6x3cs394jgqfbi0a42pam708flxaphh-default-builder.sh"
+    ],
+    "builder": "/nix/store/5jw69mbaj5dg4l2bj58acg3gxywfszpj-bash-5.2p26/bin/bash",
+    "env": {
+      "__structuredAttrs": "",
+      "buildInputs": "",
+      "builder": "/nix/store/5jw69mbaj5dg4l2bj58acg3gxywfszpj-bash-5.2p26/bin/bash",
+      "cmakeFlags": "",
+      "configureFlags": "",
+      "depsBuildBuild": "",
+      "depsBuildBuildPropagated": "",
+      "depsBuildTarget": "",
+      "depsBuildTargetPropagated": "",
+      "depsHostHost": "",
+      "depsHostHostPropagated": "",
+      "depsTargetTarget": "",
+      "depsTargetTargetPropagated": "",
+      "doCheck": "",
+      "doInstallCheck": "",
+      "mesonFlags": "",
+      "name": "hello-2.12.1",
+      "nativeBuildInputs": "",
+      "out": "/nix/store/jdgbv5g79avnrx5bdi59jq9ibbxycq8x-hello-2.12.1",
+      "outputs": "out",
+      "patches": "",
+      "pname": "hello",
+      "propagatedBuildInputs": "",
+      "propagatedNativeBuildInputs": "",
+      "src": "/nix/store/pa10z4ngm0g83kx9mssrqzz30s84vq7k-hello-2.12.1.tar.gz",
+      "stdenv": "/nix/store/dd7nxjnni7nzm0846fq5xrm89ais5lwz-stdenv-linux",
+      "strictDeps": "",
+      "system": "x86_64-linux",
+      "version": "2.12.1"
+    },
+    "inputDrvs": {
+      "/nix/store/0s62n3lv2bca7w4ik17dqnsmnfqi53lk-stdenv-linux.drv": {
+        "dynamicOutputs": {},
+        "outputs": [
+          "out"
+        ]
+      },
+      "/nix/store/5rydfkrpd5vdpz4qxsypivxwy9y6z8gl-bash-5.2p26.drv": {
+        "dynamicOutputs": {},
+        "outputs": [
+          "out"
+        ]
+      },
+      "/nix/store/r9p6f6j2mdzhpp5jgxcxmk83pp71pv89-hello-2.12.1.tar.gz.drv": {
+        "dynamicOutputs": {},
+        "outputs": [
+          "out"
+        ]
+      }
+    },
+    "inputSrcs": [
+      "/nix/store/v6x3cs394jgqfbi0a42pam708flxaphh-default-builder.sh"
+    ],
+    "name": "hello-2.12.1",
+    "outputs": {
+      "out": {
+        "path": "/nix/store/jdgbv5g79avnrx5bdi59jq9ibbxycq8x-hello-2.12.1"
+      }
+    },
+    "system": "x86_64-linux"
+  }
+}
+				  </code></pre>
+            </section>
+<section>
+	<h3>Sandboxed build - nixcpp</h3>
+	<ul>
+		<li>Defined environment</li>
+		<li>Only sees the input paths</li>
+		<li>Happens in $TMP</li>
+		<li>No network access (except <span style="color:#00ff00ff">Fixed Output Derivations</span></li>
+		<li>Protected store</li>
+	</ul>
+</section>
+
+<section>
+	<img src="images/nix-build-patch.gif" /> <br />
+    /nix/store/978ipm5g2x1g0zc1697yr9ags9s10y8f-hello-2.12.1
+</section>
+<section>
+	/nix/store/jdgbv5g79avnrx5bdi59jq9ibbxycq8x-hello-2.12.1 <br />
+	vs <br />
+    /nix/store/978ipm5g2x1g0zc1697yr9ags9s10y8f-hello-2.12.1
+</section>
+
+<section>
+	<img src="images/idea.svg" style="vertical-align: middle;" /> + nixlang + nixcpp = Build arbitrary software
+	<br />
+	=> Nixpkgs
+</section>
+<section>
+	<h3>Nixpkgs</h3>
+	<ul>
+		<li>107k packages</li>
+		<li>~3500 maintainers</li>
+		<li>Managed on github: 650.000 commits</li>
+		<li>One version(-ish) of everything per release</li>
+		<li>released twice a year</li>
+	</ul>
+</section>
+<section>
+	<h3>Flakes</h3>
+	<ul>
+		<li>Idea: Treat the nixlang specifications as nodes that 'build' derivations</li>
+		<li>Tie multiple of the together via git and lock files</li>
+		<li>Idea: 'Override' the arguments to functions</li>
+		<li>=> Outcome -> composable, reusable, reproducible specification</li>
+	</ul>
+</section>
+<section>
+<pre><code data-trim data-noescape class="language-nix">
+{
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/24.05";
+    old_nixpkgs.url = "github:nixos/nixpkgs/21.05";
+  };
+
+  outputs = { self, nixpkgs, old_nixpkgs,
+  }: let
+    pkgs = import nixpkgs {system = "x86_64-linux";};
+    old_pkgs = import old_nixpkgs {system = "x86_64-linux";};
+  in {
+    packages.x86_64-linux.default = pkgs.runCommand "default" {} ''
+      mkdir $out
+      ln ${pkgs.hello}/bin/hello $out/hello -s
+      ln ${old_pkgs.hello}/bin/hello $out/hello_old -s
+    '';
+  };
+}
+</code></pre>
+</section>
+
+<section>
+	<img src="images/flake.gif" /> <br />
+</section>
+<section>
+	<h3>Nixos</h3>
+	<ul>
+		<li>Idea: Configuration = attrsets</li>
+		<li>Declarative Module system in nixlang</li>
+		<li>Outcome: NixOs
+			<ul>
+				<li>Linux distribution</li>
+				<li>Runs from two symlinks (/etc & /run/current-system/sw/bin)</li>
+				<li>'infinite' roll-back</li>
+				<li>Ephemeral systems</li>
+				<li>Can also build containers, VMs, ISOs, SD-images</li>
+			</ul>
+		</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Better Containers</h3>
+	Containment: Share /nix/store with host. <br />
+		Shipping: Build not in layers, but from DAG. <br />
+</section>
+
+<section>
+	<h3 style="text-transform:none">NixR</h3>
+	<ul>
+		<li>Ecosystem-date based versioning</li>
+		<li>Plus your overrides</li>
+		<li>Almost all CRAN & Bioconductor packages</li>
+	</ul>
+</section>
+
+<section>
+	<h3 style="text-transform:none">poetry2nix</h3>
+	<ul>
+		<li>'Poetry' lock file based</li>
+		<li>essentially all of PyPi</li>
+	</ul>
+</section>
+<section>
+	<img src="images/nixos-curve-2457105344.jpg" />
+</section>
         </div>
+
     </div>
     <script type="module" src="/js/index.js"></script>
 </body>

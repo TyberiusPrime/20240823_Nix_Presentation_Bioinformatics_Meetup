@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "pythonsrc"
+version = "0.1.0"
+description = ""
+authors = ["Florian Finkernagel <finkernagel@imt.uni-marburg.de>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+notebook = "<7"
+dppd-plotnine = "^0.2.7"
+lxml = "^5.3.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
