@@ -1,0 +1,619 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Nix</title>
+
+    
+    <!-- <link rel="stylesheet" href="/node_modules/reveal.js/dist/theme/black.css"> -->
+    
+    
+	<style>
+	.mermaid {
+		vertical-align: middle;
+        font-family: 'trebuchet ms', verdana, arial;
+    	line-height: .75;
+	}
+}
+	</style>
+    <script type="module" crossorigin src="./assets/index.ccd33ec1.js"></script>
+    <link rel="stylesheet" href="./assets/index.0abc8bb8.css">
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <div
+            style="
+              background-image: url('./assets/title_background.fb0a5cc9.webp');
+              height: 698px;
+              width: 100%;
+              position: absolute;
+            "
+          ></div>
+          <h2 style="margin-top: 20%">
+            <img
+              src="./assets/nix-snowflake-colours.e37b5a1c.svg"
+              style="vertical-align: middle; width:80px;"
+            /><span style="vertical-align: middle"> Nix</span>
+          </h2>
+          <small style="width:500px;font-size:.8em;">
+			  or how to stop worrying<br/> and learn to love managed dependency hell
+          </small>
+
+          <small style="position: absolute; left: 5%; bottom: -65%"
+            >Author: Florian Finkernagel, 2024-08-29</small
+          >
+          <aside class="notes"></aside>
+        </section>
+
+		<section>	
+        <section>
+          <h3>Motivation</h3>
+          <blockquote>
+            "I don’t care what OS you use, if you install Nix on it, I can
+            guarantee that everything you ever need in this project Just Works,
+            without you having to lift a finger." - Jacek Generowicz
+          </blockquote>
+        </section>
+
+        <section>
+          <h3>What nix gives you</h3>
+          <ul>
+            <li>Instant access to 110k+ packages</li>
+            <li>Reproducible software environments for all languages</li>
+            <li>
+              Declarative, reproducible, hermetic builds of
+              <ul>
+                <li>binaries</li>
+                <li>shell environments</li>
+                <li>machines</li>
+                <li>containers</li>
+                <li>VMs</li>
+                <li>ISO- & SD-images</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <img src="./assets/nixos-curve-2457105344.e20a818f.jpg" style="height:650px" />
+        </section>
+        <!-- <section>
+          <h3>Repository sizes</h3>
+          <img src="images/repo_size/repo_sizes.svg"
+		  style="width:80%;"
+
+		  />
+        </section>
+-->
+        <section> 
+			<h3>Nix shell example</h3>
+          <img src="./assets/nix-shell.f63f540b.gif" />
+        </section>
+        </section>
+
+        <section>
+        <section>
+          <h3>The grand idea</h3>
+          <ul>
+            <li>Software dependencies are a D.A.G.</li>
+            <li>You can name the nodes by their inputs</li>
+            <li>This allows you to have multiple versions of everything</li>
+          </ul>
+		  <p>
+          <small>
+            The Purely Functional Software Deployment Model - Eelco Dolstra,
+            2006, PhD Thesis
+          </small>
+		  </p>
+          <aside class="notes">hello</aside>
+        </section>
+        <section >
+          <!-- <img src="images/Graph-01.svg" /> -->
+		  <div class="mermaid">
+            graph LR
+			classDef default font-size:26pt;
+			hello((Hello))
+		  </div>
+		          <aside class="notes">Build a package</aside>
+        </section>
+   <section >
+          <!-- <img src="images/Graph-01.svg" /> -->
+		  <div class="mermaid">
+            graph LR
+			classDef default font-size:26pt;
+			hello((Hello-2.12.1))
+		  </div>
+		          <aside class="notes">Build a package</aside>
+        </section>
+        <section>
+		<div class="mermaid">
+            graph LR
+			classDef default font-size:26pt;
+			hello((Hello-2.12.1))
+			gcc((gcc-13-2.0))
+			glibc((glibc-2.39-52))
+			gcc --> hello
+			glibc --> hello
+		 </div>
+        </section>
+
+        <section >
+		<div class="mermaid">
+            graph LR
+			classDef default font-size:20pt;
+			classDef FOD stroke:#0f7f00,stroke-width:3px;
+			A(...)
+			B(...)
+			hello((Hello-2.12.1))
+			gcc((gcc-13-2.0))
+			glibc((glibc-2.39-52))
+			gcc --> hello
+			glibc --> hello
+			A --> gcc
+			B --> glibc
+		 </div>
+		 <div 
+			 style="
+			 position:absolute;
+			 top:52%;
+			 left:75%;
+			 text-align:left;
+			 font-size:0.5em;
+			 ">
+			 Derivation<br />
+			 &#x2F;nix/store/&lt;hash-of-inputs&amp;definition&gt;-Hello-2.12.1
+		 </div>
+
+		</section>
+	  <section >
+		<div class="mermaid">
+            graph LR
+			classDef default font-size:20pt;
+			classDef FOD stroke:#0f7f00,stroke-width:3px;
+			A(...)
+			B(...)
+			hello((Hello-2.12.1))
+			gcc((gcc-13-2.0))
+			glibc((glibc-2.39-52))
+			gcc --> hello
+			glibc --> hello
+			tgz((hello.tar.gz)):::FOD
+			tgz --> hello
+			A --> gcc
+			B --> glibc
+		 </div>
+		 <div 
+			 style="
+			 position:absolute;
+			 top:52%;
+			 left:75%;
+			 text-align:left;
+			 font-size:0.5em;
+			 ">
+			 Derivation<br />
+			 &#x2F;nix/store/&lt;hash-of-inputs&amp;definition&gt;-Hello-2.12.1
+
+		 </div>
+
+		 <div 
+			 style="
+			 color:#0f7f00;
+			 position:absolute;
+			 top:85%;
+			 left:55%;
+			 text-align:left;
+			 font-size:0.5em;
+			 ">
+			 Fixed output derivation<br />
+			 &#x2F;nix/store/&lt;hash-of-content-hello&gt;.tar.gz
+		 </div>
+        </section>
+
+	  <section >
+		<div class="mermaid">
+            graph LR
+			classDef default font-size:20pt;
+			classDef FOD stroke:#0f7f00,stroke-width:3px;
+			A(...)
+			B(...)
+			hello((Hello-2.12.1))
+			gcc((gcc-13-2.0))
+			glibc((glibc-2.39-52))
+			gcc -.-> hello
+			glibc --> hello
+			tgz((hello.tar.gz)):::FOD
+			tgz -.-> hello
+			A -.-> gcc
+			B -.-> glibc
+		 </div>
+		 <div 
+			 style="
+			 position:absolute;
+			 top:52%;
+			 left:75%;
+			 text-align:left;
+			 font-size:0.5em;
+			 ">
+			 Derivation<br />
+			 &#x2F;nix/store/&lt;hash-of-inputs&amp;definition&gt;-Hello-2.12.1
+
+		 </div>
+
+		 <div 
+			 style="
+			 color:#0f7f00;
+			 position:absolute;
+			 top:85%;
+			 left:55%;
+			 text-align:left;
+			 font-size:0.5em;
+			 ">
+			 Fixed output derivation<br />
+			 &#x2F;nix/store/&lt;hash-of-content-hello&gt;.tar.gz
+		 </div>
+        </section>
+		</section>
+
+		<section>
+            <section>
+          <h3>
+            Nixlang
+
+            <img
+              src="./assets/nix-snowflake-colours.e37b5a1c.svg"
+              width="100"
+              height="100"
+              style="vertical-align: middle"
+            />
+          </h3>
+			  Functional, lazy, dynamically typed, domain-specific
+          <pre><code data-trim data-noescape class="language-nix">
+let
+  pkgs = import &lt;nixpkgs&gt; {};
+in
+  pkgs.stdenv.mkDerivation rec {
+    pname = "hello";
+    version = "2.12.1";
+    src = pkgs.fetchurl {
+      url = "mirror://gnu/hello/hello-${version}.tar.gz";
+      sha256 = "sha256-jZkUKv2SV28wsM18tCqNxoCZmLxdYH2Idh9RLibH2yA=";
+    };
+  }
+								  </code></pre>
+        </section>
+        <section>
+          <img src="./assets/nix-build.8930d0d9.gif" /> <br />
+          /nix/store/jdgbv5g79avnrx5bdi59jq9ibbxycq8x-hello-2.12.1
+        </section>
+
+        <section>
+          <h3>Derivation / drv files</h3>
+          <pre><code data-trim data-noescape class="language-json">
+{
+  "/nix/store/jgikc5sz2ivyi82mn679183a1fjms4ha-hello-2.12.1.drv": {
+    "args": [
+      "-e",
+      "/nix/store/v6x3cs394jgqfbi0a42pam708flxaphh-default-builder.sh"
+    ],
+    "builder": "/nix/store/5jw69mbaj5dg4l2bj58acg3gxywfszpj-bash-5.2p26/bin/bash",
+    "env": {
+      "__structuredAttrs": "",
+      "buildInputs": "",
+      "builder": "/nix/store/5jw69mbaj5dg4l2bj58acg3gxywfszpj-bash-5.2p26/bin/bash",
+      "cmakeFlags": "",
+      "configureFlags": "",
+      "depsBuildBuild": "",
+      "depsBuildBuildPropagated": "",
+      "depsBuildTarget": "",
+      "depsBuildTargetPropagated": "",
+      "depsHostHost": "",
+      "depsHostHostPropagated": "",
+      "depsTargetTarget": "",
+      "depsTargetTargetPropagated": "",
+      "doCheck": "",
+      "doInstallCheck": "",
+      "mesonFlags": "",
+      "name": "hello-2.12.1",
+      "nativeBuildInputs": "",
+      "out": "/nix/store/jdgbv5g79avnrx5bdi59jq9ibbxycq8x-hello-2.12.1",
+      "outputs": "out",
+      "patches": "",
+      "pname": "hello",
+      "propagatedBuildInputs": "",
+      "propagatedNativeBuildInputs": "",
+      "src": "/nix/store/pa10z4ngm0g83kx9mssrqzz30s84vq7k-hello-2.12.1.tar.gz",
+      "stdenv": "/nix/store/dd7nxjnni7nzm0846fq5xrm89ais5lwz-stdenv-linux",
+      "strictDeps": "",
+      "system": "x86_64-linux",
+      "version": "2.12.1"
+    },
+    "inputDrvs": {
+      "/nix/store/0s62n3lv2bca7w4ik17dqnsmnfqi53lk-stdenv-linux.drv": {
+        "dynamicOutputs": {},
+        "outputs": [
+          "out"
+        ]
+      },
+      "/nix/store/5rydfkrpd5vdpz4qxsypivxwy9y6z8gl-bash-5.2p26.drv": {
+        "dynamicOutputs": {},
+        "outputs": [
+          "out"
+        ]
+      },
+      "/nix/store/r9p6f6j2mdzhpp5jgxcxmk83pp71pv89-hello-2.12.1.tar.gz.drv": {
+        "dynamicOutputs": {},
+        "outputs": [
+          "out"
+        ]
+      }
+    },
+    "inputSrcs": [
+      "/nix/store/v6x3cs394jgqfbi0a42pam708flxaphh-default-builder.sh"
+    ],
+    "name": "hello-2.12.1",
+    "outputs": {
+      "out": {
+        "path": "/nix/store/jdgbv5g79avnrx5bdi59jq9ibbxycq8x-hello-2.12.1"
+      }
+    },
+    "system": "x86_64-linux"
+  }
+}
+				  </code></pre>
+        </section>
+
+
+		</section>
+	<section>
+        <section>
+          <h3>Sandboxed build - nixcpp</h3>
+          <ul>
+            <li>Defined, 'hermetic' environment</li>
+            <li>Only sees the input's paths</li>
+            <li>Happens in $TMP</li>
+            <li>
+				No network access <br />(except
+              <span style="color: #077f00">Fixed Output Derivations</span>)
+            </li>
+            <li>Protected store (even from root!)</li>
+          </ul>
+        </section>
+
+        <section>
+          <img src="./assets/nix-build-patch.2a01d9e5.gif" /> <br />
+          /nix/store/978ipm5g2x1g0zc1697yr9ags9s10y8f-hello-2.12.1
+        </section>
+        <section>
+          /nix/store/jdgbv5g79avnrx5bdi59jq9ibbxycq8x-hello-2.12.1 <br />
+          vs <br />
+          /nix/store/978ipm5g2x1g0zc1697yr9ags9s10y8f-hello-2.12.1
+        </section>
+	</section>
+
+	<section>
+        <section>
+          <h3>Nixpkgs</h3>
+          <ul>
+            <li>~114k packages</li>
+            <li>Largest and most up to date repository</li>
+            <li>~3500 maintainers</li>
+            <li>Managed on github: 650.000 commits</li>
+            <li>One version(-ish) of everything per release</li>
+            <li>released twice a year</li>
+          </ul>
+        </section>
+        <section>
+          <h3>Nixpkgs growth rate</h3>
+		  <img src="./assets/nixpkgs vs ubuntu growth rate.f40712df.svg"
+
+		  style="width:80%;"
+		  />
+		</section>
+
+	</section>
+	<section>
+        <section>
+          <h3>Nixos</h3>
+          <ul>
+            <li>Adds a module system in nixlang</li>
+                <li>Linux distribution</li>
+                <li>
+                  Runs from two symlinks (/etc & /run/current-system/sw/bin)
+                </li>
+                <li>'infinite' roll-back</li>
+                <li>Ephemeral systems</li>
+                <li>Can also build containers, VMs, ISOs, SD-images</li>
+          </ul>
+        </section>
+		<section>
+			<h3>Module definition</h3>
+          <pre style="height:550px; width:920px;"><code data-trim data-noescape class="language-nix">
+{ config, lib, ... }:
+with lib; let
+  cfg = config.networking;
+in {
+  options = {
+    networking.timeServers = mkOption {
+      default = [
+        "0.nixos.pool.ntp.org"
+      ];
+      type = types.listOf types.str;
+      description = ''
+        The set of NTP servers from which to synchronise.
+      ''; }; };
+config = {
+  sytem.services.ntpd = lib.mkIf cfg.networking.ntpd.enable {
+    description = "NTP Daemon";
+    serviceConfig = {
+       ExecStart = ''@${ntp}/bin/ntpd ntpd -g \
+         ${builtins.concatStringsSep ";" cfg.networking.timeServers}
+      ''; }; }; }; }
+		  </code></pre>
+
+		</section>
+		<section>
+			<h3>Module usage</h3>
+          <pre style="height:500px; width:920px;"><code data-trim data-noescape class="language-nix">
+	... nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+	  imports = [ ./hardware_configuration.nix ];
+	  users.user = {
+        john = {
+          isNormalUser = true;
+          initialPassword = "swordfish";
+          openssh.authorizedKeys.keys = [
+		       (builtins.readFile ./users/john/authorized_keys)];
+        };};
+      services.openssh = {
+        enable = true;
+        settings = {
+          PermitRootLogin = "no";
+          PasswordAuthentication = false;
+        };};
+	    networking.timeServers = [ "ntp-1.uni-marburg.de" ];
+	    environment.systemPackages = [ pkgs.fetchmail ];
+    }; }; }
+</code>
+		  </pre>
+		</section>
+	</section>
+
+	<section>
+        <section>
+          <h3>Flakes</h3>
+          <ul>
+            <li>
+		      Turn nixlang expressions into composable modules.
+            </li>
+            <li>Git based, fixed file name, fixed top level attributes</li>
+			<li>Discoverable outputs</li>
+			<li>Cachable nixlang evaluation</li>
+            <li>
+              => Outcome -> composable, reusable, reproducible specification
+            </li>
+          </ul>
+        </section>
+        <section>
+			<h3>Example flake.nix</h3>
+          <pre style="height:500px; width:920px;"><code data-trim data-noescape class="language-nix">
+{
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/24.05";
+    old_nixpkgs.url = "github:nixos/nixpkgs/21.05";
+  };
+
+  outputs = { self, nixpkgs, old_nixpkgs, }: 
+  let
+    pkgs = import nixpkgs {system = "x86_64-linux";};
+    old_pkgs = import old_nixpkgs {system = "x86_64-linux";};
+  in {
+    packages.x86_64-linux.default = pkgs.runCommand "default" {} ''
+      mkdir $out
+      ln ${pkgs.hello}/bin/hello $out/hello -s
+      ln ${old_pkgs.hello}/bin/hello $out/hello_old -s
+    '';
+  };
+}
+</code></pre>
+        </section>
+
+        <section><img src="./assets/flake.bbf7fc69.gif" /> <br /></section>
+        <section>
+          <h3>Better Containers</h3>
+		  <ul>
+			  <li>Trivially shared packages (/nix/store)</li>
+			  <li>Assembly of packages, not 'layers'</li>
+			  <li>Reproducible builds</li>
+		  </ul>
+        </section>
+
+        <section data-markdown>
+          <h3 style="text-transform: none">NixR (my project)</h3>
+		  <img src="./assets/nixR_growth.302179b0.svg" />
+          <ul>
+            <li>Almost all CRAN & Bioconductor packages</li>
+          </ul>
+
+        </section>
+<section>
+			<h3>NixR example</h3>
+          <pre style="height:500px; width:920px;"><code data-trim data-noescape class="language-nix">
+  inputs = { ... nixR.url = "github:TyberiusPrime/nixR"; };
+  outputs = { self, nixpkgs, nixR, }: {
+    packages.x86_64-linux.default = nixR.R_by_date {
+	    date = "2022-05-10";
+	    r_pkg_names = [ "Rcpp" "kedd" "stringi" ];
+	    nix_pkgs_pkgs = import nixpkgs {system = "x86_64-linux";};
+	    additional_packages = {
+		    "kedd_1.0.3" = ({
+		      src = pkgs.fetchurl {
+			    sha256 = "38760abd8c8e8f69ad85ca7992803060acc44ce68358de1763bd2415fdf83c9f";
+			    url = "https://cran.r-project.org/src/contrib/Archive/kedd/kedd_1.0.3.tar.gz";
+};);};}};
+</code></pre>
+        </section>
+
+
+        <section>
+          <h3 style="text-transform: none">poetry2nix</h3>
+           <ul>
+			  <li>Python needs <i>version resolution</i></li>
+			  <li style="list-style-type:none">
+			<div class="mermaid">
+					flowchart TB
+					A -- poetry --> B
+					B -- poetry2nix --> C
+					A[pyproject.toml]
+					B[poetry.lock]
+					C[nix derivations]
+				 </div>
+				 </li>
+			 <li>Works for large parts of pypi</li>
+
+		   </ul>
+        </section>
+</section>
+
+
+        <section
+			style="text-shadow: 0 0 0.5em white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">
+          <img src="./assets/DALL·E 2024-08-28 15.39.00 - A surreal iceberg with a smaller above-water section, floating in a vast ocean under a bright sunny sky. The above-water part is glistening with icy p.21d8016e.webp" style="height:700px;margin:0px;" />
+
+		  <div style="position:absolute;top: 0px;left:150px;color:black">NixOs</div>
+		  <div style="position:absolute;top: 0px;left:650px;color:black">Nixpkgs</div>
+		  <div style="position:absolute;top: 80px;left:680px;color:black">Flakes</div>
+		  <div style="position:absolute;top: 80px;left:180px;color:black">nixR</div>
+		  <div style="position:absolute;top: 170px;left:140px;color:black">poetry2Nix</div>
+
+
+		  <div style="position:absolute;top: 270px;left:140px;color:black;">homeManager</div>
+		  <div style="position:absolute;top: 310px;left:150px;color:black;">direnv</div>
+		  <div style="position:absolute;top: 350px;left:160px;color:black;">anysnake</div>
+		  <div style="position:absolute;top: 390px;left:150px;color:black;">hydra</div>
+		  <div style="position:absolute;top: 430px;left:160px;color:black;">CI</div>
+		  <div style="position:absolute;top: 470px;left:135px;color:black;">build boxes</div>
+		  <div style="position:absolute;top: 510px;left:170px;color:black;">binary caching</div>
+		  <div style="position:absolute;top: 550px;left:180px;color:black;">cachix</div>
+		  <div style="position:absolute;top: 620px;left:340px;color:black;">flox</div>
+
+		  <div style="position:absolute;top: 270px;left:730px;color:black;">disko</div>
+		  <div style="position:absolute;top: 310px;left:540px;color:black;">cross-building</div>
+		  <div style="position:absolute;top: 350px;left:530px;color:black;">nixos-anywhere</div>
+		  <div style="position:absolute;top: 610px;left:560px;color:black;">impermanence</div>
+		  <div style="position:absolute;top: 430px;left:656px;color:black;">agenix</div>
+		  <div style="position:absolute;top: 470px;left:670px;color:black;">nix-ld</div>
+		  <div style="position:absolute;top: 510px;left:680px;color:black;">naersk</div>
+		  <div style="position:absolute;top: 550px;left:690px;color:black;">nurl</div>
+		  <div style="position:absolute;top: 650px;left:540px;color:black;">vulnix</div>
+        </section>
+      </div>
+    </div>
+    
+  </body>
+</html>

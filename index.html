@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>Title</title>
+    <title>Nix</title>
 
     <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
     <!-- <link rel="stylesheet" href="/node_modules/reveal.js/dist/theme/black.css"> -->
@@ -66,13 +66,13 @@
         <section>
           <h3>What nix gives you</h3>
           <ul>
-            <li class="fragment fade-in">Instant access to 114k packages</li>
+            <li>Instant access to 110k+ packages</li>
             <li>Reproducible software environments for all languages</li>
-            <li class="fragment fade-in">
-              Declarative, Reproducible
+            <li>
+              Declarative, reproducible, hermetic builds of
               <ul>
                 <li>binaries</li>
-                <li>environments</li>
+                <li>shell environments</li>
                 <li>machines</li>
                 <li>containers</li>
                 <li>VMs</li>
@@ -82,13 +82,17 @@
           </ul>
         </section>
         <section>
+          <img src="images/nixos-curve-2457105344.jpg" style="height:650px" />
+        </section>
+        <!-- <section>
           <h3>Repository sizes</h3>
           <img src="images/repo_size/repo_sizes.svg"
 		  style="width:80%;"
 
 		  />
         </section>
-        <section>
+-->
+        <section> 
 			<h3>Nix shell example</h3>
           <img src="images/nix-shell.gif" />
         </section>
@@ -110,7 +114,7 @@
 		  </p>
           <aside class="notes">hello</aside>
         </section>
-        <section data-transition="zoom-in fade-out">
+        <section >
           <!-- <img src="images/Graph-01.svg" /> -->
 		  <div class="mermaid">
             graph LR
@@ -119,7 +123,15 @@
 		  </div>
 		          <aside class="notes">Build a package</aside>
         </section>
-
+   <section >
+          <!-- <img src="images/Graph-01.svg" /> -->
+		  <div class="mermaid">
+            graph LR
+			classDef default font-size:26pt;
+			hello((Hello-2.12.1))
+		  </div>
+		          <aside class="notes">Build a package</aside>
+        </section>
         <section>
 		<div class="mermaid">
             graph LR
@@ -132,11 +144,41 @@
 		 </div>
         </section>
 
-        <section data-transition="fade-out">
+        <section >
 		<div class="mermaid">
             graph LR
 			classDef default font-size:20pt;
 			classDef FOD stroke:#0f7f00,stroke-width:3px;
+			A(...)
+			B(...)
+			hello((Hello-2.12.1))
+			gcc((gcc-13-2.0))
+			glibc((glibc-2.39-52))
+			gcc --> hello
+			glibc --> hello
+			A --> gcc
+			B --> glibc
+		 </div>
+		 <div 
+			 style="
+			 position:absolute;
+			 top:52%;
+			 left:75%;
+			 text-align:left;
+			 font-size:0.5em;
+			 ">
+			 Derivation<br />
+			 &#x2F;nix/store/&lt;hash-of-inputs&amp;definition&gt;-Hello-2.12.1
+		 </div>
+
+		</section>
+	  <section >
+		<div class="mermaid">
+            graph LR
+			classDef default font-size:20pt;
+			classDef FOD stroke:#0f7f00,stroke-width:3px;
+			A(...)
+			B(...)
 			hello((Hello-2.12.1))
 			gcc((gcc-13-2.0))
 			glibc((glibc-2.39-52))
@@ -144,43 +186,77 @@
 			glibc --> hello
 			tgz((hello.tar.gz)):::FOD
 			tgz --> hello
+			A --> gcc
+			B --> glibc
 		 </div>
 		 <div 
-			 class="fragment"
+			 style="
+			 position:absolute;
+			 top:52%;
+			 left:75%;
+			 text-align:left;
+			 font-size:0.5em;
+			 ">
+			 Derivation<br />
+			 &#x2F;nix/store/&lt;hash-of-inputs&amp;definition&gt;-Hello-2.12.1
+
+		 </div>
+
+		 <div 
 			 style="
 			 color:#0f7f00;
 			 position:absolute;
-			 top:73%;
-			 left:50%;
+			 top:85%;
+			 left:55%;
+			 text-align:left;
+			 font-size:0.5em;
 			 ">
 			 Fixed output derivation<br />
 			 &#x2F;nix/store/&lt;hash-of-content-hello&gt;.tar.gz
-
 		 </div>
         </section>
-        <section data-transition="fade-in">
+
+	  <section >
 		<div class="mermaid">
             graph LR
 			classDef default font-size:20pt;
 			classDef FOD stroke:#0f7f00,stroke-width:3px;
+			A(...)
+			B(...)
 			hello((Hello-2.12.1))
 			gcc((gcc-13-2.0))
 			glibc((glibc-2.39-52))
-			gcc --> hello
-			glibc -.-> hello
+			gcc -.-> hello
+			glibc --> hello
 			tgz((hello.tar.gz)):::FOD
-			tgz --> hello
+			tgz -.-> hello
+			A -.-> gcc
+			B -.-> glibc
 		 </div>
+		 <div 
+			 style="
+			 position:absolute;
+			 top:52%;
+			 left:75%;
+			 text-align:left;
+			 font-size:0.5em;
+			 ">
+			 Derivation<br />
+			 &#x2F;nix/store/&lt;hash-of-inputs&amp;definition&gt;-Hello-2.12.1
+
+		 </div>
+
 		 <div 
 			 style="
 			 color:#0f7f00;
 			 position:absolute;
-			 top:73%;
-			 left:50%;
+			 top:85%;
+			 left:55%;
+			 text-align:left;
+			 font-size:0.5em;
 			 ">
 			 Fixed output derivation<br />
 			 &#x2F;nix/store/&lt;hash-of-content-hello&gt;.tar.gz
-
 		 </div>
         </section>
 		</section>
@@ -189,6 +265,7 @@
             <section>
           <h3>
             Nixlang
+
             <img
               src="images/nix-snowflake-colours.svg"
               width="100"
@@ -196,6 +273,7 @@
               style="vertical-align: middle"
             />
           </h3>
+			  Functional, lazy, dynamically typed, domain-specific
           <pre><code data-trim data-noescape class="language-nix">
 let
   pkgs = import &lt;nixpkgs&gt; {};
@@ -216,7 +294,7 @@ in
         </section>
 
         <section>
-          <h3>Derivation</h3>
+          <h3>Derivation / drv files</h3>
           <pre><code data-trim data-noescape class="language-json">
 {
   "/nix/store/jgikc5sz2ivyi82mn679183a1fjms4ha-hello-2.12.1.drv": {
@@ -297,8 +375,8 @@ in
         <section>
           <h3>Sandboxed build - nixcpp</h3>
           <ul>
-            <li>Defined environment</li>
-            <li>Only sees the input paths</li>
+            <li>Defined, 'hermetic' environment</li>
+            <li>Only sees the input's paths</li>
             <li>Happens in $TMP</li>
             <li>
 				No network access <br />(except
@@ -324,6 +402,7 @@ in
           <h3>Nixpkgs</h3>
           <ul>
             <li>~114k packages</li>
+            <li>Largest and most up to date repository</li>
             <li>~3500 maintainers</li>
             <li>Managed on github: 650.000 commits</li>
             <li>One version(-ish) of everything per release</li>
@@ -343,11 +422,7 @@ in
         <section>
           <h3>Nixos</h3>
           <ul>
-            <li>Idea: Configuration = attrsets</li>
-            <li>Declarative Module system in nixlang</li>
-            <li>
-              Outcome: NixOs
-              <ul>
+            <li>Adds a module system in nixlang</li>
                 <li>Linux distribution</li>
                 <li>
                   Runs from two symlinks (/etc & /run/current-system/sw/bin)
@@ -355,12 +430,37 @@ in
                 <li>'infinite' roll-back</li>
                 <li>Ephemeral systems</li>
                 <li>Can also build containers, VMs, ISOs, SD-images</li>
-              </ul>
-            </li>
           </ul>
         </section>
 		<section>
-          <pre style="height:600px; width:920px;"><code data-trim data-noescape class="language-nix">
+			<h3>Module definition</h3>
+          <pre style="height:550px; width:920px;"><code data-trim data-noescape class="language-nix">
+{ config, lib, ... }:
+with lib; let
+  cfg = config.networking;
+in {
+  options = {
+    networking.timeServers = mkOption {
+      default = [
+        "0.nixos.pool.ntp.org"
+      ];
+      type = types.listOf types.str;
+      description = ''
+        The set of NTP servers from which to synchronise.
+      ''; }; };
+config = {
+  sytem.services.ntpd = lib.mkIf cfg.networking.ntpd.enable {
+    description = "NTP Daemon";
+    serviceConfig = {
+       ExecStart = ''@${ntp}/bin/ntpd ntpd -g \
+         ${builtins.concatStringsSep ";" cfg.networking.timeServers}
+      ''; }; }; }; }
+		  </code></pre>
+
+		</section>
+		<section>
+			<h3>Module usage</h3>
+          <pre style="height:500px; width:920px;"><code data-trim data-noescape class="language-nix">
 	... nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
 	  imports = [ ./hardware_configuration.nix ];
@@ -368,24 +468,18 @@ in
         john = {
           isNormalUser = true;
           initialPassword = "swordfish";
-          extraGroups = ["wheel"];
           openssh.authorizedKeys.keys = [
 		       (builtins.readFile ./users/john/authorized_keys)];
-        };
-      };
+        };};
       services.openssh = {
         enable = true;
         settings = {
           PermitRootLogin = "no";
-          # Remove if you want to SSH using passwords
           PasswordAuthentication = false;
-        };
-      };
+        };};
 	    networking.timeServers = [ "ntp-1.uni-marburg.de" ];
 	    environment.systemPackages = [ pkgs.fetchmail ];
-    };
-  };
-}
+    }; }; }
 </code>
 		  </pre>
 		</section>
@@ -394,21 +488,20 @@ in
 	<section>
         <section>
           <h3>Flakes</h3>
-		  TODO
           <ul>
             <li>
-              Idea: Treat the nixlang specifications as nodes that 'build'
-              derivations
+		      Turn nixlang expressions into composable modules.
             </li>
-            <li>Tie multiple of the together via git and lock files</li>
-            <li>Idea: 'Override' the arguments to functions</li>
+            <li>Git based, fixed file name, fixed top level attributes</li>
+			<li>Discoverable outputs</li>
+			<li>Cachable nixlang evaluation</li>
             <li>
               => Outcome -> composable, reusable, reproducible specification
             </li>
           </ul>
         </section>
         <section>
-			<h3>Example flake</h3>
+			<h3>Example flake.nix</h3>
           <pre style="height:500px; width:920px;"><code data-trim data-noescape class="language-nix">
 {
   inputs = {
@@ -416,8 +509,8 @@ in
     old_nixpkgs.url = "github:nixos/nixpkgs/21.05";
   };
 
-  outputs = { self, nixpkgs, old_nixpkgs,
-  }: let
+  outputs = { self, nixpkgs, old_nixpkgs, }: 
+  let
     pkgs = import nixpkgs {system = "x86_64-linux";};
     old_pkgs = import old_nixpkgs {system = "x86_64-linux";};
   in {
@@ -487,8 +580,38 @@ in
 		   </ul>
         </section>
 </section>
-        <section>
-          <img src="images/nixos-curve-2457105344.jpg" />
+
+
+        <section
+			style="text-shadow: 0 0 0.5em white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">
+          <img src="images/DALL·E 2024-08-28 15.39.00 - A surreal iceberg with a smaller above-water section, floating in a vast ocean under a bright sunny sky. The above-water part is glistening with icy p.webp" style="height:700px;margin:0px;" />
+
+		  <div style="position:absolute;top: 0px;left:150px;color:black">NixOs</div>
+		  <div style="position:absolute;top: 0px;left:650px;color:black">Nixpkgs</div>
+		  <div style="position:absolute;top: 80px;left:680px;color:black">Flakes</div>
+		  <div style="position:absolute;top: 80px;left:180px;color:black">nixR</div>
+		  <div style="position:absolute;top: 170px;left:140px;color:black">poetry2Nix</div>
+
+
+		  <div style="position:absolute;top: 270px;left:140px;color:black;">homeManager</div>
+		  <div style="position:absolute;top: 310px;left:150px;color:black;">direnv</div>
+		  <div style="position:absolute;top: 350px;left:160px;color:black;">anysnake</div>
+		  <div style="position:absolute;top: 390px;left:150px;color:black;">hydra</div>
+		  <div style="position:absolute;top: 430px;left:160px;color:black;">CI</div>
+		  <div style="position:absolute;top: 470px;left:135px;color:black;">build boxes</div>
+		  <div style="position:absolute;top: 510px;left:170px;color:black;">binary caching</div>
+		  <div style="position:absolute;top: 550px;left:180px;color:black;">cachix</div>
+		  <div style="position:absolute;top: 620px;left:340px;color:black;">flox</div>
+
+		  <div style="position:absolute;top: 270px;left:730px;color:black;">disko</div>
+		  <div style="position:absolute;top: 310px;left:540px;color:black;">cross-building</div>
+		  <div style="position:absolute;top: 350px;left:530px;color:black;">nixos-anywhere</div>
+		  <div style="position:absolute;top: 610px;left:560px;color:black;">impermanence</div>
+		  <div style="position:absolute;top: 430px;left:656px;color:black;">agenix</div>
+		  <div style="position:absolute;top: 470px;left:670px;color:black;">nix-ld</div>
+		  <div style="position:absolute;top: 510px;left:680px;color:black;">naersk</div>
+		  <div style="position:absolute;top: 550px;left:690px;color:black;">nurl</div>
+		  <div style="position:absolute;top: 650px;left:540px;color:black;">vulnix</div>
         </section>
       </div>
     </div>
