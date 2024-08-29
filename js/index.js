@@ -26,6 +26,7 @@ Reveal.initialize({
       ".label { font-family: Times;font-size:26pt; vertical-align:top;}",
   },
 
+  slideNumber: true,
   // Factor of the display size that should remain empty around
   // the content
   margin: 0.04,

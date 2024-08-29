@@ -139,6 +139,8 @@
         </section>
         <section>
           <img src="images/nixos-curve-2457105344.jpg" style="height:650px" />
+		  <div style="position:absolute; top:220px; left:350px; width:460px;;">
+		  </div>
           <aside class="notes"></aside>
         </section>
         <!-- <section>
@@ -168,8 +170,8 @@
         <section>
           <h3>Nix central idea</h3>
           <ul>
-            <li>Software dependencies are a D.A.G.</li>
-            <li>You can name the nodes by hashes of their inputs (Merkel tree)</li>
+            <li>Model dependencies as a D.A.G.</li>
+            <li>n name the nodes by hashes of their inputs (Merkel tree)</li>
             <li>This allows you to have multiple versions of everything</li>
           </ul>
 		  <p>
@@ -185,6 +187,15 @@
 
 		  </aside>
         </section>
+
+		<section>
+		<div class="mermaid">
+				graph TD
+				A[Build instructions] --nixcpp--> B[Derivation]
+				B --nix daemon--> C[Realization - Nix store path]
+		</div>
+
+		</section>
         <section >
           <!-- <img src="images/Graph-01.svg" /> -->
 		  <div class="mermaid">
@@ -234,13 +245,14 @@
 		 <div 
 			 style="
 			 position:absolute;
-			 top:52%;
-			 left:75%;
+			 top:72%;
+			 left:65%;
 			 text-align:left;
-			 font-size:0.5em;
+			 font-size:0.9em;
 			 ">
 			 Derivation<br />
-			 &#x2F;nix/store/&lt;hash-of-inputs&amp;definition&gt;-Hello-2.12.1
+			 `&#x2F;nix/store/&lt;hash-of-inputs&amp;definition&gt;-Hello-2.12.1`
+			 <br /> and `./results/`
 		 </div>
 
           <aside class="notes">Explain nix store</aside>
@@ -282,10 +294,10 @@
 			 top:85%;
 			 left:55%;
 			 text-align:left;
-			 font-size:0.5em;
+			 font-size:0.8em;
 			 ">
 			 Fixed output derivation<br />
-			 &#x2F;nix/store/&lt;hash-of-content-hello&gt;.tar.gz
+			 &#x2F;nix/store/&lt;hash-of-content&gt;-hello-2.12.1.tar.gz
 		 </div>
           <aside class="notes"></aside>
         </section>
@@ -320,19 +332,22 @@
 
 		 </div>
 
-		 <div 
+	 <div 
 			 style="
 			 color:#0f7f00;
 			 position:absolute;
 			 top:85%;
 			 left:55%;
 			 text-align:left;
-			 font-size:0.5em;
+			 font-size:0.8em;
 			 ">
 			 Fixed output derivation<br />
-			 &#x2F;nix/store/&lt;hash-of-content-hello&gt;.tar.gz
+			 &#x2F;nix/store/&lt;hash-of-content&gt;-hello-2.12.1.tar.gz
 		 </div>
-          <aside class="notes"></aside>
+          <aside class="notes">
+			  two dags, buildInputs, and nativeBuildInputs
+
+		  </aside>
         </section>
 		</section>
 
@@ -360,6 +375,8 @@ in
       url = "mirror://gnu/hello/hello-${version}.tar.gz";
       sha256 = "sha256-jZkUKv2SV28wsM18tCqNxoCZmLxdYH2Idh9RLibH2yA=";
     };
+	buildInputs = [];
+	nativeBuildInputs = [];
   }
 								  </code></pre>
           <aside class="notes"></aside>
@@ -367,20 +384,12 @@ in
         <section>
           <img src="images/nix-build.gif" /> <br />
           /nix/store/jdgbv5g79avnrx5bdi59jq9ibbxycq8x-hello-2.12.1
-          <aside class="notes"></aside>
+          <aside class="notes">explain nix lang</aside>
         </section>
-		<section>
-		<div class="mermaid">
-				graph TD
-				A[Build instructions] --nixcpp--> B[Derivation] 
-				B --nix daemon--> C[Nix store path]
-		</div>
-
-		</section>
 
 
         <section>
-          <h3>Derivation / drv files</h3>
+          <h3>Derivation / .drv files</h3>
           <pre><code data-trim data-noescape class="language-json">
 {
   "/nix/store/jgikc5sz2ivyi82mn679183a1fjms4ha-hello-2.12.1.drv": {
@@ -453,7 +462,7 @@ in
   }
 }
 				  </code></pre>
-          <aside class="notes"></aside>
+          <aside class="notes">proper json</aside>
         </section>
 
 
@@ -520,7 +529,7 @@ in
                 </li>
                 <li>Atomar 'generations', 'infinite' roll-back</li>
                 <li>Ephemeral systems</li>
-                <li>Can also build containers, VMs, ISOs, SD-images</li>
+                <li>Can also build containers, VMs, bootable usb-sticks</li>
           </ul>
           <aside class="notes"></aside>
         </section>
@@ -588,8 +597,9 @@ config = {
 				C --> E[&lt;img src='images/nix flake logo.png' width='40' />]
 				
 		    </div>
+                   <aside class="notes">
           <ul>
-            <li>
+   <li>
 		      Turn nixlang expressions into composable modules.
             </li>
             <li>Git based, fixed file name, fixed top level attributes</li>
@@ -599,6 +609,8 @@ config = {
               => Outcome -> composable, reusable, reproducible specification
             </li>
           </ul>
+
+				   </aside>
         </section>
         <section>
 			<h3>Example flake.nix</h3>
@@ -626,7 +638,7 @@ config = {
         </section>
 
         <section><img src="images/flake.gif" /> <br />
-          <aside class="notes"></aside>
+          <aside class="notes">don't forget the git</aside>
 
 		</section>
 	</section>
@@ -657,7 +669,9 @@ config = {
 			    url = "https://cran.r-project.org/src/contrib/Archive/kedd/kedd_1.0.3.tar.gz";
 };);};}};
 </code></pre>
-          <aside class="notes"></aside>
+          <aside class="notes">
+			  No version resolution,
+			  ecosystem-date based </aside>
         </section>
 
 
@@ -668,7 +682,7 @@ config = {
 			  <li style="list-style-type:none">
 			<div class="mermaid">
 					flowchart TB
-					A -- poetry --> B
+					A -- (ancient-)poetry --> B
 					B -- poetry2nix --> C
 					A[pyproject.toml]
 					B[poetry.lock]
@@ -702,12 +716,13 @@ config = {
 			  height:445px;
 			  background-color:white;
 			  ">
-			  <ul>
+			  <ul style="font-size:.8em">
 				  <li>Scale: Single scripts & binaries to full machines and everything in between</li>
 				  <li>Control: at every level of the stack</li>
 				  <li>Share & reuse: Very good</li>
-				  <li>Tooling: Could be better (1st gen)</li>
-				  <li>Learning resources: Many, but no semial work</li>
+				  <li>Tooling: Could be better (1st gen system...)</li>
+				  <li>Learning resources: Many, resources, including structured teachings </li>
+				  <li>Community: Very active, very helpful, somewhat controversial, overly relying on github</li>
 			  </ul>
 		  </div>
 
