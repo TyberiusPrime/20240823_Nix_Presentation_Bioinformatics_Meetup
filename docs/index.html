@@ -18,9 +18,18 @@
         font-family: 'trebuchet ms', verdana, arial;
     	line-height: .75;
 	}
+	.mermaid img {
+			margin:0px;
+	}
+	  .container {
+        display: flex;
+      }
+      .col {
+        flex: 1;
+      }
 }
 	</style>
-    <script type="module" crossorigin src="./assets/index.ccd33ec1.js"></script>
+    <script type="module" crossorigin src="./assets/index.3c00f90a.js"></script>
     <link rel="stylesheet" href="./assets/index.0abc8bb8.css">
   </head>
 
@@ -46,7 +55,7 @@
 			  or how to stop worrying<br/> and learn to love managed dependency hell
           </small>
 
-          <small style="position: absolute; left: 5%; bottom: -65%"
+          <small style="position: absolute; left: 5%; bottom: -55%"
             >Author: Florian Finkernagel, 2024-08-29</small
           >
           <aside class="notes"></aside>
@@ -60,10 +69,56 @@
             guarantee that everything you ever need in this project Just Works,
             without you having to lift a finger." - Jacek Generowicz
           </blockquote>
+          <aside class="notes">
+			  Antidote to it works on my machine,<br />
+			  package manager
+
+		  </aside>
+        </section>
+
+        <section
+			style="text-shadow: 0 0 0.5em white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">
+          <img src="./assets/DALL·E 2024-08-28 15.39.00 - A surreal iceberg with a smaller above-water section, floating in a vast ocean under a bright sunny sky. The above-water part is glistening with icy p.21d8016e.webp" style="height:700px;margin:0px;" />
+
+		  <div style="position:absolute;top: 0px;left:150px;color:black">Nix+Nixlang</div>
+		  <div style="position:absolute;top: 0px;left:400px;color:black">Nixpkgs</div>
+		  <div style="position:absolute;top: 0px;left:650px;color:black">Flakes</div>
+		  <div style="position:absolute;top: 100px;left:180px;color:black">NixOS</div>
+		  <div style="position:absolute;top: 70px;left:620px;color:black">poetry2Nix</div>
+		  <div style="position:absolute;top: 170px;left:720px;color:black">nixR</div>
+
+
+		  <div style="position:absolute;top: 270px;left:140px;color:black;">CI</div>
+		  <div style="position:absolute;top: 310px;left:140px;color:black;">nurl</div>
+		  <div style="position:absolute;top: 350px;left:150px;color:black;">flox</div>
+		  <div style="position:absolute;top: 390px;left:150px;color:black;">hydra</div>
+		  <div style="position:absolute;top: 430px;left:140px;color:black;">cachix</div>
+		  <div style="position:absolute;top: 470px;left:135px;color:black;">anysnake</div>
+		  <div style="position:absolute;top: 510px;left:170px;color:black;">binary caching</div>
+		  <div style="position:absolute;top: 550px;left:180px;color:black;">homeManager</div>
+		  <div style="position:absolute;top: 650px;left:280px;color:black;">remote build</div>
+
+		  <div style="position:absolute;top: 270px;left:730px;color:black;">disko</div>
+		  <div style="position:absolute;top: 310px;left:690px;color:black;">runFHS</div>
+		  <div style="position:absolute;top: 350px;left:720px;color:black;">wfvm</div>
+		  <div style="position:absolute;top: 350px;left:300px;color:black;transform:rotate(-45deg);">nixos-anywhere</div>
+		  <div style="position:absolute;top: 610px;left:560px;color:black;">vulnix</div>
+		  <div style="position:absolute;top: 430px;left:656px;color:black;">agenix</div>
+		  <div style="position:absolute;top: 470px;left:670px;color:black;">nix-ld</div>
+		  <div style="position:absolute;top: 510px;left:680px;color:black;">naersk</div>
+		  <div style="position:absolute;top: 550px;left:690px;color:black;">direnv</div>
+		  <div style="position:absolute;top: 650px;left:540px;color:black;">impermanence</div>
+		  <div style="position:absolute;top: 400px;left:350px;color:black;transform:rotate(-45deg)">cross-building</div>
+          <aside class="notes">
+			  * 18 years old 
+			  * 1000s of contributors
+			  * many, many, many tools
+
+		  </aside>
         </section>
 
         <section>
-          <h3>What nix gives you</h3>
+          <h3>What Nix gives you</h3>
           <ul>
             <li>Instant access to 110k+ packages</li>
             <li>Reproducible software environments for all languages</li>
@@ -79,9 +134,13 @@
               </ul>
             </li>
           </ul>
+          <aside class="notes"></aside>
         </section>
         <section>
           <img src="./assets/nixos-curve-2457105344.e20a818f.jpg" style="height:650px" />
+		  <div style="position:absolute; top:220px; left:350px; width:460px;;">
+		  </div>
+          <aside class="notes"></aside>
         </section>
         <!-- <section>
           <h3>Repository sizes</h3>
@@ -94,15 +153,24 @@
         <section> 
 			<h3>Nix shell example</h3>
           <img src="./assets/nix-shell.f63f540b.gif" />
+          <aside class="notes">
+			  ad hoc, <br>
+			  command, <br>
+			  garbage collected <br>
+			  nix build -> symlink <br>
+			  any user in the nix group<br>
+
+
+		  </aside>
         </section>
         </section>
 
         <section>
         <section>
-          <h3>The grand idea</h3>
+          <h3>Nix central idea</h3>
           <ul>
-            <li>Software dependencies are a D.A.G.</li>
-            <li>You can name the nodes by their inputs</li>
+            <li>Model dependencies as a D.A.G.</li>
+            <li>n name the nodes by hashes of their inputs (Merkel tree)</li>
             <li>This allows you to have multiple versions of everything</li>
           </ul>
 		  <p>
@@ -111,8 +179,22 @@
             2006, PhD Thesis
           </small>
 		  </p>
-          <aside class="notes">hello</aside>
+          <aside class="notes">
+
+
+			  one folder per package, non FHS<br>
+
+		  </aside>
         </section>
+
+		<section>
+		<div class="mermaid">
+				graph TD
+				A[Build instructions] --nixcpp--> B[Derivation]
+				B --nix daemon--> C[Realization - Nix store path]
+		</div>
+
+		</section>
         <section >
           <!-- <img src="images/Graph-01.svg" /> -->
 		  <div class="mermaid">
@@ -141,6 +223,7 @@
 			gcc --> hello
 			glibc --> hello
 		 </div>
+          <aside class="notes"></aside>
         </section>
 
         <section >
@@ -161,15 +244,17 @@
 		 <div 
 			 style="
 			 position:absolute;
-			 top:52%;
-			 left:75%;
+			 top:72%;
+			 left:65%;
 			 text-align:left;
-			 font-size:0.5em;
+			 font-size:0.9em;
 			 ">
 			 Derivation<br />
-			 &#x2F;nix/store/&lt;hash-of-inputs&amp;definition&gt;-Hello-2.12.1
+			 `&#x2F;nix/store/&lt;hash-of-inputs&amp;definition&gt;-Hello-2.12.1`
+			 <br /> and `./results/`
 		 </div>
 
+          <aside class="notes">Explain nix store</aside>
 		</section>
 	  <section >
 		<div class="mermaid">
@@ -208,11 +293,12 @@
 			 top:85%;
 			 left:55%;
 			 text-align:left;
-			 font-size:0.5em;
+			 font-size:0.8em;
 			 ">
 			 Fixed output derivation<br />
-			 &#x2F;nix/store/&lt;hash-of-content-hello&gt;.tar.gz
+			 &#x2F;nix/store/&lt;hash-of-content&gt;-hello-2.12.1.tar.gz
 		 </div>
+          <aside class="notes"></aside>
         </section>
 
 	  <section >
@@ -245,18 +331,22 @@
 
 		 </div>
 
-		 <div 
+	 <div 
 			 style="
 			 color:#0f7f00;
 			 position:absolute;
 			 top:85%;
 			 left:55%;
 			 text-align:left;
-			 font-size:0.5em;
+			 font-size:0.8em;
 			 ">
 			 Fixed output derivation<br />
-			 &#x2F;nix/store/&lt;hash-of-content-hello&gt;.tar.gz
+			 &#x2F;nix/store/&lt;hash-of-content&gt;-hello-2.12.1.tar.gz
 		 </div>
+          <aside class="notes">
+			  two dags, buildInputs, and nativeBuildInputs
+
+		  </aside>
         </section>
 		</section>
 
@@ -284,16 +374,21 @@ in
       url = "mirror://gnu/hello/hello-${version}.tar.gz";
       sha256 = "sha256-jZkUKv2SV28wsM18tCqNxoCZmLxdYH2Idh9RLibH2yA=";
     };
+	buildInputs = [];
+	nativeBuildInputs = [];
   }
 								  </code></pre>
+          <aside class="notes"></aside>
         </section>
         <section>
           <img src="./assets/nix-build.8930d0d9.gif" /> <br />
           /nix/store/jdgbv5g79avnrx5bdi59jq9ibbxycq8x-hello-2.12.1
+          <aside class="notes">explain nix lang</aside>
         </section>
 
+
         <section>
-          <h3>Derivation / drv files</h3>
+          <h3>Derivation / .drv files</h3>
           <pre><code data-trim data-noescape class="language-json">
 {
   "/nix/store/jgikc5sz2ivyi82mn679183a1fjms4ha-hello-2.12.1.drv": {
@@ -366,23 +461,26 @@ in
   }
 }
 				  </code></pre>
+          <aside class="notes">proper json</aside>
         </section>
 
 
 		</section>
 	<section>
         <section>
-          <h3>Sandboxed build - nixcpp</h3>
+          <h3>Sandboxed build</h3>
           <ul>
+            <li>Nix daemon builds derivations</li>
             <li>Defined, 'hermetic' environment</li>
             <li>Only sees the input's paths</li>
-            <li>Happens in $TMP</li>
+            <li>Happens in temp. directory</li>
             <li>
-				No network access <br />(except
+				<b>No network access</b> <br />(except
               <span style="color: #077f00">Fixed Output Derivations</span>)
             </li>
             <li>Protected store (even from root!)</li>
           </ul>
+          <aside class="notes"></aside>
         </section>
 
         <section>
@@ -390,9 +488,10 @@ in
           /nix/store/978ipm5g2x1g0zc1697yr9ags9s10y8f-hello-2.12.1
         </section>
         <section>
-          /nix/store/jdgbv5g79avnrx5bdi59jq9ibbxycq8x-hello-2.12.1 <br />
-          vs <br />
-          /nix/store/978ipm5g2x1g0zc1697yr9ags9s10y8f-hello-2.12.1
+		  <span style="color:grey">/nix/store/</span><span style="color:#833b92">jdgbv5g79avnrx5bdi59jq9ibbxycq8x</span>-<span style="color:#5073bd">hello</span>-<span style="color:#7eb5e0">2.12.1</span>
+		  <br />vs <br />
+		  <span style="color:grey">/nix/store/</span><span style="color:#833b92">978ipm5g2x1g0zc1697yr9ags9s10y8f</span>-<span style="color:#5073bd">hello</span>-<span style="color:#7eb5e0">2.12.1</span>
+          <aside class="notes"></aside>
         </section>
 	</section>
 
@@ -410,26 +509,28 @@ in
         </section>
         <section>
           <h3>Nixpkgs growth rate</h3>
-		  <img src="./assets/nixpkgs vs ubuntu growth rate.f40712df.svg"
-
+		  <img src="./assets/nixpkgs vs ubuntu growth rate.65659154.svg"
 		  style="width:80%;"
 		  />
+		  <div style="position:absolute; font-size:.5em; bottom:5%;right:5%">Source: Repology.org, 2024-08</div>
+          <aside class="notes"></aside>
 		</section>
 
 	</section>
 	<section>
         <section>
-          <h3>Nixos</h3>
+          <h3>NixOs</h3>
           <ul>
             <li>Adds a module system in nixlang</li>
                 <li>Linux distribution</li>
                 <li>
-                  Runs from two symlinks (/etc & /run/current-system/sw/bin)
+                  Runs from one (kernel, /etc, and /run/current-system/sw/bin)
                 </li>
-                <li>'infinite' roll-back</li>
+                <li>Atomar 'generations', 'infinite' roll-back</li>
                 <li>Ephemeral systems</li>
-                <li>Can also build containers, VMs, ISOs, SD-images</li>
+                <li>Can also build containers, VMs, bootable usb-sticks</li>
           </ul>
+          <aside class="notes"></aside>
         </section>
 		<section>
 			<h3>Module definition</h3>
@@ -440,20 +541,19 @@ with lib; let
 in {
   options = {
     networking.timeServers = mkOption {
-      default = [
-        "0.nixos.pool.ntp.org"
-      ];
+      default = [ "0.nixos.pool.ntp.org" "1.nixos.pool.ntp.org" ];
       type = types.listOf types.str;
-      description = ''
-        The set of NTP servers from which to synchronise.
-      ''; }; };
+      description = "The set of NTP servers from which to synchronise."; 
+  } };
 config = {
-  sytem.services.ntpd = lib.mkIf cfg.networking.ntpd.enable {
+  systemd.services.ntpd = lib.mkIf cfg.networking.ntpd.enable {
     description = "NTP Daemon";
     serviceConfig = {
-       ExecStart = ''@${ntp}/bin/ntpd ntpd -g \
+       ExecStart = ''
+	   @${ntp}/bin/ntpd ntpd -g \
          ${builtins.concatStringsSep ";" cfg.networking.timeServers}
-      ''; }; }; }; }
+'';
+}; }; }; }
 		  </code></pre>
 
 		</section>
@@ -481,14 +581,24 @@ config = {
     }; }; }
 </code>
 		  </pre>
+          <aside class="notes">Mention merging</aside>
 		</section>
 	</section>
 
 	<section>
         <section>
           <h3>Flakes</h3>
+			<div class="mermaid">
+				graph BT
+				A[&lt;img src='images/nix flake logo.png' width='40' /> your flake] --> B[&lt;img src='images/nix flake logo.png' width='40' />nixpkgs]
+				A --> C[&lt;img src='images/nix flake logo.png' width='40' />other]
+				C --> D[&lt;img src='images/nix flake logo.png' width='40' />]
+				C --> E[&lt;img src='images/nix flake logo.png' width='40' />]
+				
+		    </div>
+                   <aside class="notes">
           <ul>
-            <li>
+   <li>
 		      Turn nixlang expressions into composable modules.
             </li>
             <li>Git based, fixed file name, fixed top level attributes</li>
@@ -498,6 +608,8 @@ config = {
               => Outcome -> composable, reusable, reproducible specification
             </li>
           </ul>
+
+				   </aside>
         </section>
         <section>
 			<h3>Example flake.nix</h3>
@@ -521,18 +633,16 @@ config = {
   };
 }
 </code></pre>
+          <aside class="notes"></aside>
         </section>
 
-        <section><img src="./assets/flake.bbf7fc69.gif" /> <br /></section>
-        <section>
-          <h3>Better Containers</h3>
-		  <ul>
-			  <li>Trivially shared packages (/nix/store)</li>
-			  <li>Assembly of packages, not 'layers'</li>
-			  <li>Reproducible builds</li>
-		  </ul>
-        </section>
+        <section><img src="./assets/flake.bbf7fc69.gif" /> <br />
+          <aside class="notes">don't forget the git</aside>
 
+		</section>
+	</section>
+	<section>
+      
         <section data-markdown>
           <h3 style="text-transform: none">NixR (my project)</h3>
 		  <img src="./assets/nixR_growth.302179b0.svg" />
@@ -540,6 +650,7 @@ config = {
             <li>Almost all CRAN & Bioconductor packages</li>
           </ul>
 
+          <aside class="notes"></aside>
         </section>
 <section>
 			<h3>NixR example</h3>
@@ -557,6 +668,9 @@ config = {
 			    url = "https://cran.r-project.org/src/contrib/Archive/kedd/kedd_1.0.3.tar.gz";
 };);};}};
 </code></pre>
+          <aside class="notes">
+			  No version resolution,
+			  ecosystem-date based </aside>
         </section>
 
 
@@ -567,7 +681,7 @@ config = {
 			  <li style="list-style-type:none">
 			<div class="mermaid">
 					flowchart TB
-					A -- poetry --> B
+					A -- (ancient-)poetry --> B
 					B -- poetry2nix --> C
 					A[pyproject.toml]
 					B[poetry.lock]
@@ -577,41 +691,119 @@ config = {
 			 <li>Works for large parts of pypi</li>
 
 		   </ul>
+          <aside class="notes"></aside>
         </section>
 </section>
 
+<section>
 
         <section
 			style="text-shadow: 0 0 0.5em white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;">
           <img src="./assets/DALL·E 2024-08-28 15.39.00 - A surreal iceberg with a smaller above-water section, floating in a vast ocean under a bright sunny sky. The above-water part is glistening with icy p.21d8016e.webp" style="height:700px;margin:0px;" />
 
-		  <div style="position:absolute;top: 0px;left:150px;color:black">NixOs</div>
-		  <div style="position:absolute;top: 0px;left:650px;color:black">Nixpkgs</div>
-		  <div style="position:absolute;top: 80px;left:680px;color:black">Flakes</div>
-		  <div style="position:absolute;top: 80px;left:180px;color:black">nixR</div>
-		  <div style="position:absolute;top: 170px;left:140px;color:black">poetry2Nix</div>
+		  <div style="position:absolute;top: 0px;left:150px;color:black">Nix+Nixlang</div>
+		  <div style="position:absolute;top: 0px;left:400px;color:black">Nixpkgs</div>
+		  <div style="position:absolute;top: 0px;left:650px;color:black">Flakes</div>
+		  <div style="position:absolute;top: 100px;left:180px;color:black">NixOS</div>
+		  <div style="position:absolute;top: 70px;left:620px;color:black">poetry2Nix</div>
+		  <div style="position:absolute;top: 170px;left:720px;color:black">nixR</div>
+		  <div style="
+			  position:absolute; 
+			  top:255px;
+			  width:800px;
+			  left:50px;
+			  height:445px;
+			  background-color:white;
+			  ">
+			  <ul style="font-size:.8em">
+				  <li>Scale: Single scripts & binaries to full machines and everything in between</li>
+				  <li>Control: at every level of the stack</li>
+				  <li>Share & reuse: Very good</li>
+				  <li>Tooling: Could be better (1st gen system...)</li>
+				  <li>Learning resources: Many, resources, including structured teachings </li>
+				  <li>Community: Very active, very helpful, somewhat controversial, overly relying on github</li>
+			  </ul>
+		  </div>
 
 
-		  <div style="position:absolute;top: 270px;left:140px;color:black;">homeManager</div>
-		  <div style="position:absolute;top: 310px;left:150px;color:black;">direnv</div>
-		  <div style="position:absolute;top: 350px;left:160px;color:black;">anysnake</div>
-		  <div style="position:absolute;top: 390px;left:150px;color:black;">hydra</div>
-		  <div style="position:absolute;top: 430px;left:160px;color:black;">CI</div>
-		  <div style="position:absolute;top: 470px;left:135px;color:black;">build boxes</div>
-		  <div style="position:absolute;top: 510px;left:170px;color:black;">binary caching</div>
-		  <div style="position:absolute;top: 550px;left:180px;color:black;">cachix</div>
-		  <div style="position:absolute;top: 620px;left:340px;color:black;">flox</div>
 
-		  <div style="position:absolute;top: 270px;left:730px;color:black;">disko</div>
-		  <div style="position:absolute;top: 310px;left:540px;color:black;">cross-building</div>
-		  <div style="position:absolute;top: 350px;left:530px;color:black;">nixos-anywhere</div>
-		  <div style="position:absolute;top: 610px;left:560px;color:black;">impermanence</div>
-		  <div style="position:absolute;top: 430px;left:656px;color:black;">agenix</div>
-		  <div style="position:absolute;top: 470px;left:670px;color:black;">nix-ld</div>
-		  <div style="position:absolute;top: 510px;left:680px;color:black;">naersk</div>
-		  <div style="position:absolute;top: 550px;left:690px;color:black;">nurl</div>
-		  <div style="position:absolute;top: 650px;left:540px;color:black;">vulnix</div>
-        </section>
+          <aside class="notes"></aside>
+		          </section>
+</section>
+<section>
+
+	<section>
+		<h3>Nix vs *</h3>
+	</section>
+    <section>
+          <h3>Vs Docker</h3>
+		  <div class="container">
+			  <div class="col">
+				  Nix<br />
+		  <ul>
+			  <li>Trivially shared packages</li>
+			  <li>Assembly of packages, not 'layers'</li>
+			  <li>Fast changes</li>
+			  <li>Reproducible builds</li>
+		  </ul>
+			  </div>
+			  <div class="col">
+		  Docker
+		  <ul>
+			  <li>Changes in early layers invalidate all later layers</li>
+			  <li>Container images are one-off builds, non repeatable </li>
+		  </ul>
+			  </div></div>
+          <aside class="notes"></aside>
+    </section>
+    <section>
+          <h3>Vs Conda</h3>
+		  <div class="container">
+			  <div class="col">
+		  Nix:
+		  <ul>
+			  <li>Full stack, not just Python and R</li>
+			  <li>Reproducible</li>
+			  <li>Much larger scope</li>
+			  <li>Package your own stuff easily</li>
+		  </ul>
+			  </div>
+			  <div class="col">
+		  Conda: 
+		  <ul>
+			  <li>Conda easier to install</li>
+			  <li>Version resolving (NP, slow, reproducible?)</li>
+			  <li>Prebuild binaries with cuda</li>
+			  <li>Possibly easier learning curve</li>
+		  </ul>
+			  </div></div>
+          <aside class="notes"></aside>
+    </section>
+	<section>
+      <h3>Nix Vs Ansible/Puppet/Salt</h3>
+		  <div class="container">
+			  <div class="col">
+				  Nix: <br />
+		  <ul>
+			  <li>Declerative</li>
+			  <li>Reproducible</li>
+			  <li>Straight forward</li>
+		  </ul>
+			  </div>
+			  <div class="col">
+				  others: <br />
+		  <ul>
+			  <li>Imperative 'best effort'</li>
+			  <li>Rollback impossible</li>
+		  </ul>
+			  </div></div>
+          <aside class="notes"></aside>
+    </section>
+
+
+</section>
+
+
       </div>
     </div>
     
