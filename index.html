@@ -70,6 +70,11 @@
             guarantee that everything you ever need in this project Just Works,
             without you having to lift a finger." - Jacek Generowicz
           </blockquote>
+          <aside class="notes">
+			  Antidote to it works on my machine,<br />
+			  package manager
+
+		  </aside>
         </section>
 
         <section
@@ -105,6 +110,12 @@
 		  <div style="position:absolute;top: 550px;left:690px;color:black;">direnv</div>
 		  <div style="position:absolute;top: 650px;left:540px;color:black;">impermanence</div>
 		  <div style="position:absolute;top: 400px;left:350px;color:black;transform:rotate(-45deg)">cross-building</div>
+          <aside class="notes">
+			  * 18 years old 
+			  * 1000s of contributors
+			  * many, many, many tools
+
+		  </aside>
         </section>
 
         <section>
@@ -124,9 +135,11 @@
               </ul>
             </li>
           </ul>
+          <aside class="notes"></aside>
         </section>
         <section>
           <img src="images/nixos-curve-2457105344.jpg" style="height:650px" />
+          <aside class="notes"></aside>
         </section>
         <!-- <section>
           <h3>Repository sizes</h3>
@@ -139,6 +152,15 @@
         <section> 
 			<h3>Nix shell example</h3>
           <img src="images/nix-shell.gif" />
+          <aside class="notes">
+			  ad hoc, <br>
+			  command, <br>
+			  garbage collected <br>
+			  nix build -> symlink <br>
+			  any user in the nix group<br>
+
+
+		  </aside>
         </section>
         </section>
 
@@ -147,7 +169,7 @@
           <h3>Nix central idea</h3>
           <ul>
             <li>Software dependencies are a D.A.G.</li>
-            <li>You can name the nodes by hashes of their inputs (Merkel Tree)</li>
+            <li>You can name the nodes by hashes of their inputs (Merkel tree)</li>
             <li>This allows you to have multiple versions of everything</li>
           </ul>
 		  <p>
@@ -156,7 +178,12 @@
             2006, PhD Thesis
           </small>
 		  </p>
-          <aside class="notes">hello</aside>
+          <aside class="notes">
+
+
+			  one folder per package, non FHS<br>
+
+		  </aside>
         </section>
         <section >
           <!-- <img src="images/Graph-01.svg" /> -->
@@ -186,6 +213,7 @@
 			gcc --> hello
 			glibc --> hello
 		 </div>
+          <aside class="notes"></aside>
         </section>
 
         <section >
@@ -215,6 +243,7 @@
 			 &#x2F;nix/store/&lt;hash-of-inputs&amp;definition&gt;-Hello-2.12.1
 		 </div>
 
+          <aside class="notes">Explain nix store</aside>
 		</section>
 	  <section >
 		<div class="mermaid">
@@ -258,6 +287,7 @@
 			 Fixed output derivation<br />
 			 &#x2F;nix/store/&lt;hash-of-content-hello&gt;.tar.gz
 		 </div>
+          <aside class="notes"></aside>
         </section>
 
 	  <section >
@@ -302,6 +332,7 @@
 			 Fixed output derivation<br />
 			 &#x2F;nix/store/&lt;hash-of-content-hello&gt;.tar.gz
 		 </div>
+          <aside class="notes"></aside>
         </section>
 		</section>
 
@@ -331,11 +362,22 @@ in
     };
   }
 								  </code></pre>
+          <aside class="notes"></aside>
         </section>
         <section>
           <img src="images/nix-build.gif" /> <br />
           /nix/store/jdgbv5g79avnrx5bdi59jq9ibbxycq8x-hello-2.12.1
+          <aside class="notes"></aside>
         </section>
+		<section>
+		<div class="mermaid">
+				graph TD
+				A[Build instructions] --nixcpp--> B[Derivation] 
+				B --nix daemon--> C[Nix store path]
+		</div>
+
+		</section>
+
 
         <section>
           <h3>Derivation / drv files</h3>
@@ -411,6 +453,7 @@ in
   }
 }
 				  </code></pre>
+          <aside class="notes"></aside>
         </section>
 
 
@@ -429,6 +472,7 @@ in
             </li>
             <li>Protected store (even from root!)</li>
           </ul>
+          <aside class="notes"></aside>
         </section>
 
         <section>
@@ -439,6 +483,7 @@ in
 		  <span style="color:grey">/nix/store/</span><span style="color:#833b92">jdgbv5g79avnrx5bdi59jq9ibbxycq8x</span>-<span style="color:#5073bd">hello</span>-<span style="color:#7eb5e0">2.12.1</span>
 		  <br />vs <br />
 		  <span style="color:grey">/nix/store/</span><span style="color:#833b92">978ipm5g2x1g0zc1697yr9ags9s10y8f</span>-<span style="color:#5073bd">hello</span>-<span style="color:#7eb5e0">2.12.1</span>
+          <aside class="notes"></aside>
         </section>
 	</section>
 
@@ -460,22 +505,24 @@ in
 		  style="width:80%;"
 		  />
 		  <div style="position:absolute; font-size:.5em; bottom:5%;right:5%">Source: Repology.org, 2024-08</div>
+          <aside class="notes"></aside>
 		</section>
 
 	</section>
 	<section>
         <section>
-          <h3>Nixos</h3>
+          <h3>NixOs</h3>
           <ul>
             <li>Adds a module system in nixlang</li>
                 <li>Linux distribution</li>
                 <li>
-                  Runs from three symlinks (kernel, /etc, and /run/current-system/sw/bin)
+                  Runs from one (kernel, /etc, and /run/current-system/sw/bin)
                 </li>
                 <li>Atomar 'generations', 'infinite' roll-back</li>
                 <li>Ephemeral systems</li>
                 <li>Can also build containers, VMs, ISOs, SD-images</li>
           </ul>
+          <aside class="notes"></aside>
         </section>
 		<section>
 			<h3>Module definition</h3>
@@ -526,6 +573,7 @@ config = {
     }; }; }
 </code>
 		  </pre>
+          <aside class="notes">Mention merging</aside>
 		</section>
 	</section>
 
@@ -574,9 +622,13 @@ config = {
   };
 }
 </code></pre>
+          <aside class="notes"></aside>
         </section>
 
-        <section><img src="images/flake.gif" /> <br /></section>
+        <section><img src="images/flake.gif" /> <br />
+          <aside class="notes"></aside>
+
+		</section>
 	</section>
 	<section>
       
@@ -587,6 +639,7 @@ config = {
             <li>Almost all CRAN & Bioconductor packages</li>
           </ul>
 
+          <aside class="notes"></aside>
         </section>
 <section>
 			<h3>NixR example</h3>
@@ -604,6 +657,7 @@ config = {
 			    url = "https://cran.r-project.org/src/contrib/Archive/kedd/kedd_1.0.3.tar.gz";
 };);};}};
 </code></pre>
+          <aside class="notes"></aside>
         </section>
 
 
@@ -624,6 +678,7 @@ config = {
 			 <li>Works for large parts of pypi</li>
 
 		   </ul>
+          <aside class="notes"></aside>
         </section>
 </section>
 
@@ -658,6 +713,7 @@ config = {
 
 
 
+          <aside class="notes"></aside>
 		          </section>
 </section>
 <section>
@@ -684,6 +740,7 @@ config = {
 			  <li>Container images are one-off builds, non repeatable </li>
 		  </ul>
 			  </div></div>
+          <aside class="notes"></aside>
     </section>
     <section>
           <h3>Vs Conda</h3>
@@ -706,6 +763,7 @@ config = {
 			  <li>Possibly easier learning curve</li>
 		  </ul>
 			  </div></div>
+          <aside class="notes"></aside>
     </section>
 	<section>
       <h3>Nix Vs Ansible/Puppet/Salt</h3>
@@ -725,6 +783,7 @@ config = {
 			  <li>Rollback impossible</li>
 		  </ul>
 			  </div></div>
+          <aside class="notes"></aside>
     </section>
 
 

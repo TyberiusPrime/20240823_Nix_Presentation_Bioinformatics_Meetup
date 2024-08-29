@@ -29,7 +29,7 @@ Reveal.initialize({
   // Factor of the display size that should remain empty around
   // the content
   margin: 0.04,
-  plugins: [RevealMermaid, Highlight],
+  plugins: [RevealMermaid, Highlight, Notes],
 });
 
 /* Mermaid.initialize({
